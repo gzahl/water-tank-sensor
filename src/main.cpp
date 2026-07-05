@@ -9,7 +9,7 @@
 using namespace sensesp;
 
 // Define pin constants
-const uint8_t kTankSensorPin = 36;  // GPIO pin for analog input
+const uint8_t kTankSensorPin = 33;  // GPIO pin for analog input
 
 // The setup function performs one-time application initialization
 void setup() {
@@ -20,6 +20,7 @@ void setup() {
   // Create the global SensESPApp object
   SensESPAppBuilder builder;
   sensesp_app = builder.set_hostname("water-tank-sensor")
+  ->enable_ota("Hunger")
                       ->get_app();
 
   // Create the analog input sensor for reading tank level
@@ -55,10 +56,8 @@ void setup() {
                  new SKMetadata("Water Tank Level", "%")  // Value metadata
              ));
 
-  // Start the app
-  sensesp_app->start();
 }
 
 void loop() {
-  // The app handles the periodic tasks for us
+  event_loop()->tick();
 }
